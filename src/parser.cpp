@@ -24,8 +24,14 @@ bool Parser::parseOperation(char c, Operation& out, std::string& error) const
         case '/': 
             out = Operation::Div; 
             return true;
+        case '^': 
+            out = Operation::Pow; 
+            return true;
+        case '?': 
+            out = Operation::Sqrt; 
+            return true;
         default:  
-            error = "Invalid operator. Use one of (+, -, *, /)."; 
+            error = "Invalid operator. Use one of (+, -, *, /, ^, ?)."; 
             return false;
     }
 }

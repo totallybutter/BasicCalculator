@@ -1,5 +1,3 @@
-// Commit 3: App impl. Reads inputs, supports 'exit', validates via Parser, computes via Calculator.
-
 #include "../include/app.h"
 #include <iostream>
 
@@ -14,13 +12,24 @@ const char* App::symbol(Operation op)
             return "*";
         case Operation::Div: 
             return "/";
+        case Operation::Pow: 
+            return "^";
+        case Operation::Sqrt: 
+            return "?";    
     }
-    return "?";
+    return "??";
 }
 
 void App::printExpr(double a, Operation op, double b, double result) 
 {
-    std::cout << a << " " << symbol(op) << " " << b << " = " << result << "\n\n";
+    if(op == Operation::Sqrt)
+    {
+        std::cout << "sqrt(" << a << ") = " << result << "\n\n";
+    }
+    else
+    {
+        std::cout << a << " " << symbol(op) << " " << b << " = " << result << "\n\n";
+    }
 }
 
 int App::run() 
@@ -48,7 +57,7 @@ int App::run()
         }
 
         // Operator (or exit)
-        std::cout << "Enter operation (+, -, *, /): ";
+        std::cout << "Enter operation (+, -, *, /, ^, ? for sqrt): ";
 
         if (!(std::cin >> opStr) || (opStr == "exit")) 
             break;
@@ -56,10 +65,21 @@ int App::run()
         if (opStr.size() != 1 || !parser_.parseOperation(opStr[0], op, err)) 
         {
             if (err.empty()) 
-                err = "Invalid operator. Use one of (+, -, *, /).\n";
+                err = "Invalid operator. Use one of (+, -, *, /, ^, ?).\n";
 
             std::cout << err << "\n\n";
             continue;
+        }
+
+        if (op == Operation::Sqrt) //if the operation is a square root
+        {
+            if (!calc_.compute(op, a, 0.0, result, err)) 
+            {
+                std::cout << "Error: " << err << "\n\n";
+                continue;
+            }
+            printExpr(a, op, 0.0, result);
+            continue;                     // <-- don't ask for a second number
         }
 
         // Second number (or exit)

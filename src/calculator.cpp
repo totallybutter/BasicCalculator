@@ -1,4 +1,6 @@
 #include "../include/calculator.h"
+#include <cmath>
+#include <limits>
 
 bool Calculator::compute(Operation op, double a, double b, double& out, std::string& error) const 
 {
@@ -19,6 +21,22 @@ bool Calculator::compute(Operation op, double a, double b, double& out, std::str
                 error = "Division by zero is not allowed.\n"; return false; 
             }
             out = a / b; 
+            return true;
+        case Operation::Pow:
+            out = std::pow(a,b);
+            if (!std::isfinite(out)) 
+            { 
+                error = "Result not finite."; 
+                return false; 
+            }
+            return true;
+        case Operation::Sqrt:
+            if (a < 0)
+            {
+                error = "Square root of a negative number is not allowed.";
+                return false;
+            }
+            out = std::sqrt(a);
             return true;
     }
     error = "Unknown operation.";

@@ -2,7 +2,7 @@
 #include <string>
 
 // This is done to keep arithmetic logic separate from I/O so it can be tested and reused.
-enum class Operation { Add, Sub, Mul, Div };
+enum class Operation { Add, Sub, Mul, Div, Pow, Sqrt };
 
 class Calculator {
 public:
