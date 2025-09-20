@@ -16,7 +16,7 @@ bool Calculator::compute(Operation op, double a, double b, double& out, std::str
         case Operation::Div:
             if (b == 0) 
             { 
-                error = "Division by zero is not allowed."; return false; 
+                error = "Division by zero is not allowed.\n"; return false; 
             }
             out = a / b; 
             return true;
