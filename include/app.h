@@ -1,5 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
+ #include "ops.h"
 #include "calculator.h"
 #include "parser.h"
 
@@ -17,7 +19,17 @@ private:
     Calculator calc_;
     Parser parser_;
 
-    static const char* symbol(Operation op); // "+", "-", "*", "/"
+    // History Calculator Functionality
+    std::vector<std::string> history_; // This stores the final result in here
+    static constexpr std::size_t historyLimit = 100; //cap the limit of how much it can store
+    void recordHistory(const std::string& line);
+    void printHistory() const;
+    void clearHistory();
+
+    // Normal Calculator Functionality
     //This is to format the final calculation in away that it is easy for the user to read.
     static void printExpr(double a, Operation op, double b, double result);
+    static std::string exprString(double a, Operation op, double b, double result); // for history
+
+    bool handleCommand(const std::string& input);
 };

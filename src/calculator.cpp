@@ -1,6 +1,5 @@
 #include "../include/calculator.h"
 #include <cmath>
-#include <limits>
 
 bool Calculator::compute(Operation op, double a, double b, double& out, std::string& error) const 
 {
